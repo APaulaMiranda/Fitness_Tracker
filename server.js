@@ -22,6 +22,20 @@ app.get("/api/workouts", ({ body }, res) => {
     db.Workout.find({}).then(result => res.json(result));
 });
 
+app.get("/api/workouts/:id", ({ body, params }, res) => {
+    db.Workout.findById(params.id).then(result => res.json(result));
+});
+
+app.put("/api/workouts/:id", ({ params, body }, res) => {
+    db.Workout.findById(params.id).then(workout => {
+        if (workout !== null) {
+            workout.exercises.push(body);
+            db.Workout.updateOne({ _id: params.id }, workout);
+            workout.save().then(() => res.json(workout));
+        }
+    })
+});
+
 app.listen(PORT, () => {
     console.log(`App running on port ${PORT}!`);
 });
