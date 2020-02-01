@@ -23,6 +23,10 @@ app.get("/api/workouts", (_, res) => {
     db.Workout.find({}).then(result => res.json(result));
 });
 
+app.get("/api/workouts/range", (_, res) => {
+    db.Workout.find({}).sort({ day: -1 }).then(result => res.json(result));
+});
+
 app.get("/api/workouts/:id", (req, res) => {
     db.Workout.findById(req.params.id).then(result => res.json(result));
 });
